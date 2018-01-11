@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/com/coorun/constant/DBTypeEnum.java=GBK
+encoding//src/com/coorun/constant/LevelEnum.java=GBK
+encoding//src/com/coorun/constant/LogStatusEnum.java=GBK
+encoding//src/com/coorun/entity/LogConfig.java=UTF-8
+encoding//src/com/coorun/entity/MessageBean.java=GBK
+encoding//src/com/coorun/entity/RawMessage.java=GBK
+encoding//src/com/coorun/logcreate/ILogAppender.java=GBK
+encoding//src/com/coorun/logcreate/ILogCollection.java=GBK
+encoding//src/com/coorun/logcreate/impl/LogApenderImpl.java=UTF-8
+encoding//src/com/coorun/logcreate/impl/LogCollectionImpl.java=GBK
+encoding//src/logConfig.properties=UTF-8
+encoding/<project>=UTF-8

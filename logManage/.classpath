@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/Java/Maven/jars/log4j/log4j/1.2.12/log4j-1.2.12.jar"/>
+	<classpathentry kind="lib" path="D:/Java/Maven/jars/com/oracle/ojdbc14/10.2.0.1.0/ojdbc14-10.2.0.1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Java/Maven/jars/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
