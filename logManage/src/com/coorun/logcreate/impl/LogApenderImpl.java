@@ -167,21 +167,25 @@ public class LogApenderImpl implements ILogAppender {
 				String sql = null;
 				String tableName = logConfig.getDbTableName();
 				if ((DBTypeEnum.ORACLE).equals(logConfig.getDbType())) {
-					sql = "insert into " + tableName + " (ID,CLASSNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values ("
-							+ tableName + "_SEQ.NEXTVAL,?,?,?,?,sysdate)";
+					sql = "insert into " + tableName
+							+ " (ID,ORIGIN,USERNAME,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values ("
+							+ tableName + "_SEQ.NEXTVAL,?,?,?,?,?,?,?,sysdate)";
 				} else if ((DBTypeEnum.MYSQL).equals(logConfig.getDbType())) {
 					sql = "insert into " + tableName
-							+ " (ID,CLASSNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values (null,?,?,?,?,now())";
+							+ " (ID,ORIGIN,USERNAME,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values (null,?,?,?,?,?,?,?,now())";
 				} else {// 预留其他类型数据库SQL
 					
 				}
 				try {
 					connection = getConnecion();
 					PreparedStatement ps = connection.prepareStatement(sql);
-					ps.setString(1, message.getClassName());
-					ps.setString(2, message.getLevel());
-					ps.setString(3, message.getCode());
-					ps.setString(4, message.getContent());
+					ps.setString(1, message.getOrigin());
+					ps.setString(2, message.getUserName());
+					ps.setString(3, message.getClassName());
+					ps.setString(4, message.getMethodName());
+					ps.setString(5, message.getLevel());
+					ps.setString(6, message.getCode());
+					ps.setString(7, message.getContent());
 					ps.executeUpdate();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -208,8 +212,10 @@ public class LogApenderImpl implements ILogAppender {
 	 * 封装massageBean
 	 */
 	private MessageBean assembleMessage(RawMessage message, Class clasz) {
-		MessageBean newMessage = new MessageBean(logConfig.getLogType().toString(), message.getCode(), message.getContent(),
-				new Date(System.currentTimeMillis()), clasz.getName());
+		MessageBean newMessage = new MessageBean(message.getOrigin() == null ? "" : message.getOrigin(),
+				message.getUserName() == null ? "" : message.getUserName(), clasz.getName(),
+				message.getMethodName() == null ? "" : message.getMethodName(), logConfig.getLogType().toString(),
+				message.getCode(), message.getContent(), new Date(System.currentTimeMillis()));
 		return newMessage;
 	}
 

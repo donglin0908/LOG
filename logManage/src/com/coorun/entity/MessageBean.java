@@ -7,23 +7,66 @@ import java.util.Date;
  *
  */
 public class MessageBean {
-	// 日志等级
-	private String level;// 日志级别
-
-	private String code;// 日志内容
+	// 日志来源
+	private String origin;
+	// 登陆者
+	private String userName;
+	// 日志类名
+	private String className;
+	// 方法名
+	private String methodName;
+	// 日志级别
+	private String level;
 	// 日志内容
-	private String content;// 日志要约
+	private String code;
+	// 日志要约
+	private String content;
+	// 日志时间
+	private Date datetime;
 
-	private Date datetime;// 日志时间
-
-	private String className;// 日志类名
-
-	public MessageBean(String level, String code, String content, Date datetime, String className) {
+	public MessageBean(String origin, String userName, String className, String methodName, String level, String code,
+			String content, Date datetime) {
+		super();
+		this.origin = origin;
+		this.userName = userName;
+		this.className = className;
+		this.methodName = methodName;
 		this.level = level;
 		this.code = code;
 		this.content = content;
 		this.datetime = datetime;
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
 		this.className = className;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
+		this.methodName = methodName;
 	}
 
 	public String getLevel() {
@@ -58,18 +101,11 @@ public class MessageBean {
 		this.datetime = datetime;
 	}
 
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
-	}
-
 	@Override
 	public String toString() {
-		return "MessageBean [level=" + level + ", code=" + code + ", content=" + content + ", datetime=" + datetime
-				+ ", className=" + className + "]";
+		return "MessageBean [origin=" + origin + ", userName=" + userName + ", className=" + className + ", methodName="
+				+ methodName + ", level=" + level + ", code=" + code + ", content=" + content + ", datetime=" + datetime
+				+ "]";
 	}
 
 }
