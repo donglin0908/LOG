@@ -100,11 +100,4 @@ public class LogConfig {
 		this.dbPassword = dbPassword;
 	}
 
-	@Override
-	public String toString() {
-		return "LogConfig [isLog=" + isLog + ", logType=" + logType + ", log2Where=" + log2Where + ", dbType=" + dbType
-				+ ", dbTableName=" + dbTableName + ", dbUrl=" + dbUrl + ", dbDriverName=" + dbDriverName
-				+ ", dbUsername=" + dbUsername + ", dbPassword=" + dbPassword + "]";
-	}
-
 }

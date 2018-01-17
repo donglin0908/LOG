@@ -1,7 +1,5 @@
 package com.coorun.entity;
 
-import java.util.Date;
-
 /**
  * 日志内容
  *
@@ -10,32 +8,23 @@ public class MessageBean {
 	// 日志来源
 	private String origin;
 	// 登陆者
-	private String userName;
+	private String userID;
 	// 日志类名
 	private String className;
 	// 方法名
 	private String methodName;
 	// 日志级别
 	private String level;
-	// 日志内容
-	private String code;
 	// 日志要约
+	private String code;
+	// 日志内容
 	private String content;
-	// 日志时间
-	private Date datetime;
-
-	public MessageBean(String origin, String userName, String className, String methodName, String level, String code,
-			String content, Date datetime) {
-		super();
-		this.origin = origin;
-		this.userName = userName;
-		this.className = className;
-		this.methodName = methodName;
-		this.level = level;
-		this.code = code;
-		this.content = content;
-		this.datetime = datetime;
-	}
+	// 类型
+	private String type;
+	// 登陆IP
+	private String loginIP;
+	// 备注
+	private String remarks;
 
 	public String getOrigin() {
 		return origin;
@@ -45,12 +34,12 @@ public class MessageBean {
 		this.origin = origin;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUserID() {
+		return userID;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 	public String getClassName() {
@@ -93,19 +82,28 @@ public class MessageBean {
 		this.content = content;
 	}
 
-	public Date getDatetime() {
-		return datetime;
+	public String getType() {
+		return type;
 	}
 
-	public void setDatetime(Date datetime) {
-		this.datetime = datetime;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "MessageBean [origin=" + origin + ", userName=" + userName + ", className=" + className + ", methodName="
-				+ methodName + ", level=" + level + ", code=" + code + ", content=" + content + ", datetime=" + datetime
-				+ "]";
+	public String getLoginIP() {
+		return loginIP;
+	}
+
+	public void setLoginIP(String loginIP) {
+		this.loginIP = loginIP;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 }

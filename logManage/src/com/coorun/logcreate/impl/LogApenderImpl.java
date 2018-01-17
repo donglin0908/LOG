@@ -6,8 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutorService;
@@ -35,7 +35,7 @@ public class LogApenderImpl implements ILogAppender {
 	ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
 	// 存储类名与日志
-	ConcurrentHashMap<String, Logger> hashMap = new ConcurrentHashMap();
+	ConcurrentHashMap<String, Logger> hashMap = new ConcurrentHashMap<String, Logger>();
 
 	// //此管道放置将要写入文件或db中的messagebean
 	// ConcurrentLinkedDeque<MessageBean> writeQueue = new
@@ -130,7 +130,7 @@ public class LogApenderImpl implements ILogAppender {
 	/**
 	 * 写日志文件
 	 */
-	public void write2File(MessageBean message, Class clasz) {
+	public void write2File(MessageBean message, Class<?> clasz) {
 		Logger logger;
 		// 判断hashMap中的类名
 		if ((logger = hashMap.get(clasz.getName())) == null) {
@@ -141,16 +141,16 @@ public class LogApenderImpl implements ILogAppender {
 		// 根据级别记录日志信息
 		switch (logConfig.getLogType()) {
 		case DEBUG:
-			logger.debug(message.getCode() + " - " + message.getContent());
+			logger.debug(message.getContent());
 			break;
 		case INFO:
-			logger.info(message.getCode() + " - " + message.getContent());
+			logger.info(message.getContent());
 			break;
 		case WARNING:
-			logger.warn(message.getCode() + " - " + message.getContent());
+			logger.warn(message.getContent());
 			break;
 		default:
-			logger.error(message.getCode() + " - " + message.getContent());
+			logger.error(message.getContent());
 			break;
 		}
 	}
@@ -165,27 +165,33 @@ public class LogApenderImpl implements ILogAppender {
 			public void run() {
 				Connection connection = null;
 				String sql = null;
+				// 数据库表名
 				String tableName = logConfig.getDbTableName();
 				if ((DBTypeEnum.ORACLE).equals(logConfig.getDbType())) {
 					sql = "insert into " + tableName
-							+ " (ID,ORIGIN,USERNAME,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values ("
-							+ tableName + "_SEQ.NEXTVAL,?,?,?,?,?,?,?,sysdate)";
+							+ "(ID,ORIGIN,USERID,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,TYPE,LOGINIP,REMARKS,DATETIME)"
+							+ "values " + "(?,?,?,?,?,?,?,?,?,?,?,sysdate)";
 				} else if ((DBTypeEnum.MYSQL).equals(logConfig.getDbType())) {
 					sql = "insert into " + tableName
-							+ " (ID,ORIGIN,USERNAME,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,DATETIME) values (null,?,?,?,?,?,?,?,now())";
+							+ " (ID,ORIGIN,USERID,CLASSNAME,METHODNAME,LOGLEVEL,LOGCODE,CONTENT,TYPE,LOGINIP,REMARKS,DATETIME) "
+							+ "values (null,?,?,?,?,?,?,?,?,?,?,now())";
 				} else {// 预留其他类型数据库SQL
-					
+
 				}
 				try {
 					connection = getConnecion();
 					PreparedStatement ps = connection.prepareStatement(sql);
-					ps.setString(1, message.getOrigin());
-					ps.setString(2, message.getUserName());
-					ps.setString(3, message.getClassName());
-					ps.setString(4, message.getMethodName());
-					ps.setString(5, message.getLevel());
-					ps.setString(6, message.getCode());
-					ps.setString(7, message.getContent());
+					ps.setString(1, UUID.randomUUID().toString());
+					ps.setString(2, message.getOrigin() == null ? "" : message.getOrigin());
+					ps.setString(3, message.getUserID() == null ? "" : message.getUserID());
+					ps.setString(4, message.getClassName() == null ? "" : message.getClassName());
+					ps.setString(5, message.getMethodName() == null ? "" : message.getMethodName());
+					ps.setString(6, message.getLevel() == null ? "" : message.getLevel());
+					ps.setString(7, message.getCode() == null ? "" : message.getCode());
+					ps.setString(8, message.getContent() == null ? "" : message.getContent());
+					ps.setString(9, message.getType() == null ? "" : message.getType());
+					ps.setString(10, message.getLoginIP() == null ? "" : message.getLoginIP());
+					ps.setString(11, message.getRemarks() == null ? "" : message.getRemarks());
 					ps.executeUpdate();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -211,19 +217,24 @@ public class LogApenderImpl implements ILogAppender {
 	/**
 	 * 封装massageBean
 	 */
-	private MessageBean assembleMessage(RawMessage message, Class clasz) {
-		MessageBean newMessage = new MessageBean(message.getOrigin() == null ? "" : message.getOrigin(),
-				message.getUserName() == null ? "" : message.getUserName(), clasz.getName(),
-				message.getMethodName() == null ? "" : message.getMethodName(), logConfig.getLogType().toString(),
-				message.getCode(), message.getContent(), new Date(System.currentTimeMillis()));
-		return newMessage;
+	private MessageBean assembleMessage(RawMessage message, Class<?> clasz) {
+		MessageBean msg = new MessageBean();
+		msg.setOrigin(message.getOrigin());
+		msg.setUserID(message.getUserID());
+		msg.setClassName(clasz.getName());
+		msg.setMethodName(message.getMethodName());
+		msg.setLevel(message.getLevel());
+		msg.setCode(message.getCode());
+		msg.setContent(message.getContent());
+		msg.setLoginIP(message.getLoginIP());
+		return msg;
 	}
 
 	@Override
 	/**
 	 * 调用日志功能
 	 */
-	public void setMessage(RawMessage message, Class clasz) {
+	public void setMessage(RawMessage message, Class<?> clasz) {
 		MessageBean e = assembleMessage(message, clasz);
 		// writeQueue.add(e);
 		if (readQueue.size() > MAXREADQUEUESIZE) {

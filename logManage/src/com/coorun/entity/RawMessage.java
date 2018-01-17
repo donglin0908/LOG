@@ -5,31 +5,55 @@ package com.coorun.entity;
  *
  */
 public class RawMessage {
-	// 日志内容
-	private String code;
-	// 日志要约
-	private String content;
-
-	// 日志来源
+	// 系统名称
 	private String origin;
 	// 登陆者
-	private String userName;
+	private String userID;
 	// 方法名
 	private String methodName;
+	// 日志级别
+	private String level;
+	// 日志编码
+	private String code;
+	// 日志内容
+	private String content;
+	// 类型
+	private String type;
+	// 登陆IP
+	private String loginIP;
+	// 备注
+	private String remarks;
 
-	public RawMessage(String code, String content) {
-		super();
-		this.code = code;
-		this.content = content;
+	public String getOrigin() {
+		return origin;
 	}
 
-	public RawMessage(String code, String content, String origin, String userName, String methodName) {
-		super();
-		this.code = code;
-		this.content = content;
+	public void setOrigin(String origin) {
 		this.origin = origin;
-		this.userName = userName;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public void setMethodName(String methodName) {
 		this.methodName = methodName;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 	public String getCode() {
@@ -48,34 +72,28 @@ public class RawMessage {
 		this.content = content;
 	}
 
-	public String getOrigin() {
-		return origin;
+	public String getType() {
+		return type;
 	}
 
-	public void setOrigin(String origin) {
-		this.origin = origin;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getLoginIP() {
+		return loginIP;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setLoginIP(String loginIP) {
+		this.loginIP = loginIP;
 	}
 
-	public String getMethodName() {
-		return methodName;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public void setMethodName(String methodName) {
-		this.methodName = methodName;
-	}
-
-	@Override
-	public String toString() {
-		return "RawMessage [code=" + code + ", content=" + content + ", origin=" + origin + ", userName=" + userName
-				+ ", methodName=" + methodName + "]";
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 }

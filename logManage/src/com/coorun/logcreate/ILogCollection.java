@@ -7,9 +7,9 @@ import com.coorun.entity.RawMessage;
  *
  */
 public interface ILogCollection {
-	// 写具体日志
-	public void setException(Class claaz, RawMessage message);
+	// 写日志内容
+	public void setException(Class<?> claaz, RawMessage message);
 
 	// 写日志要约
-	public void setLog(Class claaz, RawMessage message);
+	public void setLog(Class<?> claaz, RawMessage message);
 }
