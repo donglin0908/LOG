@@ -11,8 +11,6 @@ public class RawMessage {
 	private String userID;
 	// 方法名
 	private String methodName;
-	// 日志级别
-	private String level;
 	// 日志编码
 	private String code;
 	// 日志内容
@@ -46,14 +44,6 @@ public class RawMessage {
 
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
-	}
-
-	public String getLevel() {
-		return level;
-	}
-
-	public void setLevel(String level) {
-		this.level = level;
 	}
 
 	public String getCode() {

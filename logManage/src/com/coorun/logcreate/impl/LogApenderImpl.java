@@ -219,14 +219,28 @@ public class LogApenderImpl implements ILogAppender {
 	 */
 	private MessageBean assembleMessage(RawMessage message, Class<?> clasz) {
 		MessageBean msg = new MessageBean();
-		msg.setOrigin(message.getOrigin());
-		msg.setUserID(message.getUserID());
-		msg.setClassName(clasz.getName());
-		msg.setMethodName(message.getMethodName());
-		msg.setLevel(message.getLevel());
-		msg.setCode(message.getCode());
-		msg.setContent(message.getContent());
-		msg.setLoginIP(message.getLoginIP());
+		msg.setOrigin(message.getOrigin() == null ? "" : message.getOrigin());
+		msg.setUserID(message.getUserID() == null ? "" : message.getUserID());
+		msg.setClassName(clasz.getName() == null ? "" : clasz.getName());
+		msg.setMethodName(message.getMethodName() == null ? "" : message.getMethodName());
+		msg.setCode(message.getCode() == null ? "" : message.getCode());
+		msg.setContent(message.getContent() == null ? "" : message.getContent());
+		msg.setType(message.getType() == null ? "" : message.getType());
+		msg.setLoginIP(message.getLoginIP() == null ? "" : message.getLoginIP());
+		switch (logConfig.getLogType()) {
+		case DEBUG:
+			msg.setLevel("DEBUG");
+			break;
+		case INFO:
+			msg.setLevel("INFO");
+			break;
+		case WARNING:
+			msg.setLevel("WARNING");
+			break;
+		default:
+			msg.setLevel("ERROR");
+			break;
+		}
 		return msg;
 	}
 
