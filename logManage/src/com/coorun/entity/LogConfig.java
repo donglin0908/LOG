@@ -39,7 +39,10 @@ public class LogConfig {
 	public LevelEnum getLogType() {
 		return logType;
 	}
-
+	/**
+	 * 
+	 * @param logType
+	 */
 	public void setLogType(LevelEnum logType) {
 		this.logType = logType;
 	}
